@@ -46,3 +46,8 @@ func (di *DiskImage) TypeName() string {
     return C.GoString(C.tsk_img_type_toname(di.itype))
 }
 
+func (di *DiskImage) OpenFilesystem() *Filesystem {
+    cFs := C.tsk_fs_open_img((*C.TSK_IMG_INFO)(di), 0, C.TSK_FS_TYPE_DETECT)
+
+    return (*Filesystem)(cFs)
+}
