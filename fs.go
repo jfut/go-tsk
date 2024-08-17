@@ -18,6 +18,7 @@ type Filesystem C.TSK_FS_INFO
 type Directory  C.TSK_FS_DIR
 type Filename   C.TSK_FS_NAME
 type File       C.TSK_FS_FILE
+type Meta       C.TSK_FS_META
 
 type WalkCallback func (file *File, path string)
 // keep track of ongoing walks
@@ -217,4 +218,28 @@ func (fn *Filename) Type() int {
 
 func (fn *Filename) TypeStr() string {
     return FileType[int(fn.Type())]
+}
+
+func (file *File) Meta() *Meta {
+    return (*Meta)(file.meta)
+}
+
+func (meta *Meta) Size() int64 {
+    return int64(meta.size)
+}
+
+func (meta *Meta) Mtime() time.Time {
+    return time.Unix(int64(meta.mtime), 0)
+}
+
+func (meta *Meta) Atime() time.Time {
+    return time.Unix(int64(meta.atime), 0)
+}
+
+func (meta *Meta) Ctime() time.Time {
+    return time.Unix(int64(meta.ctime), 0)
+}
+
+func (meta *Meta) CRtime() time.Time {
+    return time.Unix(int64(meta.crtime), 0)
 }
